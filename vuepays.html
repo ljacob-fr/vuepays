@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+
+</head>
+<body>
+  <h1 class="text-center py-3">Les pays du monde</h1>
+
+    <div id="app" class="d-flex justify-content-center">     
+      <div>
+        <div class="container">
+          <div class="row">
+            <table class="table table-responsive table-striped table-bordered table-hover">
+              <thead class="pt-5">
+                <tr class="">
+                  <th scope="col" class="py-3">Pays</th>
+                  <th scope="col" class="py-3">Capitale</th>
+                  <th scope="col" class="py-3">Population</th>
+                  <th scope="col" class="py-3">Langues</th>
+                  <th scope="col" class="py-3">Drapeau</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr v-for="(pays, index) in pays" :key="index" class="align-middle">
+                  <td>{{pays.translations.fr}}</td>
+                  <td>{{pays.capital}}</td>
+                  <td>{{pays.population.toLocaleString()}} habitants</td>
+                  <td>
+                    <ul>
+                      <li v-for="langue in pays.languages" style="list-style: none;">{{langue.name}}<br/></li>
+                    </ul>
+                    
+                  </td>
+                  <td><img :src="pays.flag" :alt="'drapeau ' +pays.translations.fr" style="max-width: 100px; height: auto;"></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  
+
+
+      <!-- JavaScript Bundle with Popper -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script>
+
+
+    new Vue({
+    el: '#app',
+    data () {
+        return {
+        pays: null
+        }
+    },
+    mounted () {
+        axios
+        .get('https://restcountries.eu/rest/v2/all')
+        .then(response => {
+            this.pays = response.data;
+          })
+          .catch(error => console.log(error))
+    },
+  })
+
+
+
+</script>
+</body>
+</html>
